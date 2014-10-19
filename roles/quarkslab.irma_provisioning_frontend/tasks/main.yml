@@ -9,5 +9,14 @@
     recurse: yes
   notify: restart nginx
 
+- name: Install tools for PostgreSQL support
+  apt:
+    name: "postgresql-server-dev-{{postgresql_version}}"
+    state: present
+
+- pip:
+    name: psycopg2
+    state: present
+
 - include: openssl_configuration.yml
   when: frontend_openssl|default(False) == True
