@@ -21,14 +21,8 @@
   tags:
     - ufw
 
-- name: Install tools for PostgreSQL support
-  apt:
-    name: "postgresql-server-dev-{{postgresql_version}}"
-    state: present
-
-- pip:
-    name: psycopg2
-    state: present
+- include: postgresql_tools.yml
+  when: postgresql_version is defined
 
 - include: openssl_configuration.yml
   when: frontend_openssl|default(False) == True
