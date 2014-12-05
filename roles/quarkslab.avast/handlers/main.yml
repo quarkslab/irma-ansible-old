@@ -1,0 +1,4 @@
+---
+
+- name: Restart Avast daemon
+  action: service name=avast state=restarted
