@@ -1,0 +1,4 @@
+---
+
+- name: AVG | Restart agvd service
+  action: service name=avgd state=restarted
