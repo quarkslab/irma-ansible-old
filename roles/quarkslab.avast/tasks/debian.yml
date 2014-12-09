@@ -1,11 +1,11 @@
 ---
  
-- name: Importing Avast PGP public key
+- name: Avast | Importing PGP public key
   apt_key:
     url: http://files.avast.com/files/resellers/linux/avast.gpg
     state: present
 
-- name: Adding Avast Repository
+- name: Avast | Adding Repository
   apt_repository:
     repo: deb http://deb.avast.com/lin/repo debian release
     state: present
@@ -15,25 +15,32 @@
     msg: "Please ensure that 'avast_license_file' is set in your host_vars or group_vars"
   when: avast_license_file is not defined
 
-- name: Installing Avast
+- name: Avast | Installing from repository
   apt:
     name: avast
     update_cache: yes
 
-- name: Installing license key
+# TODO: remove hard-coded group for avast
+- name: Avast | Adding avast user to nogroup
+  user:
+    name: avast
+    groups: nogroup
+    append: yes
+
+- name: Avast | Installing license key
   copy: 
     src: "{{ avast_license_file }}"
     dest: /etc/avast/license.avastlic
     owner: avast
     group: avast
 
-- name: Patch Avast update script
+- name: Avast | Patch update script
   replace:
     dest: /var/lib/avast/Setup/avast.setup
     regexp: '^DOWNLOAD=(.*)$'
     replace: 'DOWNLOAD="curl -L -s -f"'
 
-- name: Update Avast file definitions
+- name: Avast | Update file definitions
   shell: /var/lib/avast/Setup/avast.vpsupdate
   sudo: true
   notify:
