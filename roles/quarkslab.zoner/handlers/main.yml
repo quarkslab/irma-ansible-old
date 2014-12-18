@@ -1,0 +1,6 @@
+---
+
+- name: Zoner | Restart daemon
+  service:
+    name: zavd
+    state: restarted
