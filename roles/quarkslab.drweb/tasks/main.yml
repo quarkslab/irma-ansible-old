@@ -1,0 +1,30 @@
+---
+
+- name: Dr Web | Install dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - sudo
+    - libxi6
+
+- name: Dr Web | Check version
+  command: drweb-ctl --version
+  ignore_errors: yes
+  register: drweb_present
+
+- name: Dr Web | Create temporary work dir
+  file: 
+    path: "{{ drweb_temp_dir }}/"
+    state: directory
+
+- include: install.yml
+  when: drweb_present | failed
+
+- name: Dr Web | Create temporary work dir
+  file: 
+    path: "{{ drweb_temp_dir }}/"
+    state: absent
+
+- name: Dr Web | Update file definitions
+  shell: drweb-ctl update
+  sudo: true
+  ignore_errors: yes 

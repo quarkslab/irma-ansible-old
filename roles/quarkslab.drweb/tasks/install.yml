@@ -1,0 +1,22 @@
+---
+
+- name: Dr Web | Importing PGP public key
+  apt_key:
+    url: http://repo.drweb.com/drweb/drweb.key
+    state: present
+
+- name: Dr Web | Adding Repository
+  apt_repository:
+    repo: deb http://repo.drweb.com/drweb/debian 10.0.0 non-free
+    state: present
+
+# TODO: Instrument installer and auto ask for a license file
+- name: Dr Web | Checking licence file
+  fail: 
+    msg: "Please ensure that 'drweb_license_file' is set"
+  when: drweb_license_file is not defined
+
+- name: Dr Web | Installing from repository
+  apt:
+    name: drweb-workstations
+    update_cache: yes
