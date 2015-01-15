@@ -1,0 +1,7 @@
+---
+
+- name: Restart Selenium Server
+  service:
+    name: selenium
+    state: restarted
+  sudo: yes

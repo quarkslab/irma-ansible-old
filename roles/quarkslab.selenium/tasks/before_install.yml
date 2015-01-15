@@ -1,0 +1,26 @@
+---
+
+- name: Ensure users and group are presents
+  group:
+    name: "{{ selenium_group }}"
+    state: present
+  sudo: yes
+
+- user:
+    name: "{{ selenium_user }}"
+    group: "{{ selenium_group }}"
+    createhome: no
+    state: present
+  sudo: yes
+
+- name: Ensure Selenium directories are present
+  file:
+    path: "{{ item }}"
+    owner: "{{ selenium_user }}"
+    group: "{{ selenium_group }}"
+    mode: 02755
+    state: directory
+  sudo: yes
+  with_items:
+    - "{{ selenium_server_path }}"
+    - "{{ selenium_log_dir }}"
