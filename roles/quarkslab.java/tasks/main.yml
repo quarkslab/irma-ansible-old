@@ -1,0 +1,7 @@
+---
+
+- name: Install java
+  apt:
+    name: openjdk-7-jre
+    state: present
+  sudo: yes
