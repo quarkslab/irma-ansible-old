@@ -76,4 +76,11 @@
   roles:
     - { role: quarkslab.virustotal, tags: 'virustotal' }
 
+
+# Test part
+- name: Selenium Server provisioning
+  hosts: selenium
+  roles:
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ selenium_ufw_additional_rules }}" }
+
 # vim: sw=2

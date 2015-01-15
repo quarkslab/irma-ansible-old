@@ -30,6 +30,8 @@ ansible_config:
       - brain.irma
     virustotal:
       - brain.irma
+    selenium:
+      - selenium.irma
     "probe:children":
       - clamav
       - comodo

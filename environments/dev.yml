@@ -109,6 +109,8 @@ ansible_config:
       - static-analyzer.irma
     virustotal:
       - virustotal.irma
+    selenium:
+      - selenium.irma
     "probe:children":
       - clamav
       - comodo
