@@ -1,0 +1,30 @@
+---
+
+- name: Download Selenium server
+  get_url:
+    url: "{{ selenium_download_url }}"
+    dest: "{{ selenium_server_path }}/{{ selenium_jar_file }}"
+    force: no
+  sudo: yes
+
+- name: Install Configuration
+  template:
+    src: defaults.j2
+    dest: /etc/default/selenium
+    mode: 0644
+  sudo: yes
+  notify: Restart Selenium Server
+
+- name: Install Init.d script
+  template:
+    src: init-selenium.j2
+    dest: /etc/init.d/selenium
+    mode: 755
+  sudo: yes
+  notify: Restart Selenium Server
+
+- name: Update Selenium boot options
+  service:
+    name: selenium
+    enabled: "{{ selenium_run_at_startup | bool }}"
+  sudo: yes

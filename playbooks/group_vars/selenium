@@ -1,0 +1,9 @@
+---
+
+## Selenium installation
+selenium_port: 4444
+
+selenium_ufw_additional_rules:
+  - port: "{{ selenium_port }}"
+    rule: allow
+    proto: tcp
