@@ -1,0 +1,23 @@
+# Package states: present or installed or latest
+selenium_pkg_state: present
+
+selenium_enabled: yes                       # Enable module
+selenium_run_at_startup: yes
+selenium_server_major_version: "2.44" # Selenium client major version
+selenium_server_minor_version: ".0" # Selenium client minor version
+selenium_server_version: "{{ selenium_server_major_version }}{{ selenium_server_minor_version }}" # Selenium client
+
+selenium_download_url: "http://selenium-release.storage.googleapis.com/{{ selenium_server_major_version }}/{{ selenium_jar_file }}"
+selenium_jar_file: "selenium-server-standalone-{{ selenium_server_version }}.jar"
+selenium_server_path: '/usr/local/lib/selenium'
+#todo used in jenkins /var/lib/selenium/selenium.jar
+
+selenium_user: selenium
+selenium_group: selenium
+
+selenium_log_dir: /var/log/selenium
+
+selenium_hub: ''
+selenium_java_opts: '-Xmx256m'
+selenium_extra_args: ''
+selenium_port: '4444'

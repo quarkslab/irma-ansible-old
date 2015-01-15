@@ -82,6 +82,7 @@
   hosts: selenium
   roles:
     - { role: quarkslab.java, tags: 'java' }
+    - { role: quarkslab.selenium, tags: 'selenium' }
     - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ selenium_ufw_additional_rules }}" }
 
 # vim: sw=2
