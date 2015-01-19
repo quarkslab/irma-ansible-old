@@ -15,7 +15,7 @@
 
 - name: McAfee VSCL | Create temporary work dir
   file:
-    path: "/tmp/{{ mcafee_temp_dir }}/"
+    path: "{{ mcafee_temp_dir }}/"
     state: directory
 
 - include: install.yml
@@ -23,7 +23,7 @@
 
 - include: update.yml
 
-## - name: McAfee VSCL | Remove temporary work dir
-##   file:
-##     path: "/tmp/{{ mcafee_temp_dir}}/"
-##     state: absent
+- name: McAfee VSCL | Remove temporary work dir
+  file:
+    path: "{{ mcafee_temp_dir}}/"
+    state: absent
