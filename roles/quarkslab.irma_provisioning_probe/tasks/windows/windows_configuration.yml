@@ -1,0 +1,12 @@
+---
+
+- name: Disabling WinDefender
+  raw: "{{ item.cmd }}"
+  register: result
+  failed_when: result.rc not in {{ item.rc | default([0]) }}
+  with_items:
+    # Stopping and Disabling Windows defender
+    - cmd: "powershell Stop-Service WinDefend"
+      rc: [0, 1]
+    - cmd: "powershell Set-Service 'MpsSvc' -startuptype 'disabled'"
+      rc: [0]
