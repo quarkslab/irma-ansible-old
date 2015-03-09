@@ -1,0 +1,17 @@
+---
+
+- name: Determine ProgramFiles
+  raw: echo '%PROGRAMFILES%'
+  register: echo_programfiles
+
+- set_fact:
+    remote_programfiles: '{{ echo_programfiles.stdout[1:-3] | regex_replace("\\\\", "/") }}'
+
+- name: Checking if already installed
+  win_stat:
+    path: '{{ remote_programfiles }}/Windows Defender/MpCmdRun.exe'
+  register: windefender_installed
+
+- name: Update Windows Defender
+  raw: '"{{ remote_programfiles }}/Windows Defender/MpCmdRun.exe" -SignatureUpdate'
+  when: windefender_installed.stat.exists is defined and windefender_installed.stat.exists

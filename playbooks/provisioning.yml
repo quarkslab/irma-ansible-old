@@ -133,4 +133,9 @@
   roles:
     - { role: quarkslab.peid, tags: 'peid' }
 
+- name: Windows Defender provisioning
+  hosts: windows_defender
+  roles:
+    - { role: quarkslab.windows_defender, tags: 'windows_defender' }
+
 # vim: sw=2
