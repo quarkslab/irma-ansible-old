@@ -58,6 +58,12 @@
   roles:
     - { role: quarkslab.comodo_cavl, tags: 'comodo' }
 
+- name: Sophos provisioning
+  hosts: sophos
+  sudo: yes
+  roles:
+    - { role: quarkslab.sophos, tags: 'sophos' }
+
 - name: McAfee VSCL provisioning
   hosts: mcafee
   sudo: yes
@@ -75,5 +81,45 @@
   sudo: yes
   roles:
     - { role: quarkslab.virustotal, tags: 'virustotal' }
+
+- name: AVG provisioning
+  hosts: avg
+  roles:
+    - { role: quarkslab.avg, tags: 'avg' }
+
+- name: AVG provisioning
+  hosts: bitdefender
+  roles:
+    - { role: quarkslab.bitdefender, tags: 'bitdefender' }
+
+- name: EScan provisioning
+  hosts: escan
+  roles:
+    - { role: quarkslab.escan, tags: 'escan' }
+
+- name: VirusBlokAda
+  hosts: virusblokada
+  roles:
+    - { role: quarkslab.virusblokada , tags: 'virusblokada' }
+
+- name: Zoner provisioning
+  hosts: zoner
+  roles:
+    - { role: quarkslab.zoner, tags: 'zoner' }
+
+- name: DrWeb provisioning
+  hosts: drweb
+  roles:
+    - { role: quarkslab.drweb, tags: 'drweb' }
+
+- name: Avast provisioning
+  hosts: avast
+  roles:
+    - { role: quarkslab.avast, tags: 'avast' }
+
+- name: FSecure provisioning
+  hosts: fsecure
+  roles:
+    - { role: quarkslab.fsecure, tags: 'fsecure' }
 
 # vim: sw=2
