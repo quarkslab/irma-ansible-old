@@ -44,6 +44,8 @@ ansible_config:
       - brain.irma
     comodo:
       - brain.irma
+    sophos:
+      - brain.irma
     mcafee:
       - brain.irma
     static-analyzer:
@@ -53,6 +55,7 @@ ansible_config:
     "probe:children":
       - clamav
       - comodo
+      - sophos
       - mcafee
       - static-analyzer
       - virustotal
