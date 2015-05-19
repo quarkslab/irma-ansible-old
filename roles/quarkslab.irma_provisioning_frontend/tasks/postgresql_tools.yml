@@ -1,0 +1,10 @@
+---
+
+- name: Install tools for PostgreSQL support
+  apt:
+    name: "postgresql-server-dev-{{postgresql_version}}"
+    state: present
+
+- pip:
+    name: psycopg2
+    state: present
