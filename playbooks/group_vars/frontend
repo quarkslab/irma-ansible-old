@@ -173,6 +173,7 @@ supervisor_programs_frontend:
 
 
 ## Nginx role
+keep_only_specified: True
 nginx_configs:
   proxy:
     - proxy_set_header X-Real-IP $remote_addr

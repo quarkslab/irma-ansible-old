@@ -11,3 +11,11 @@
 - name: Install | Compile and install PureFTPD
   shell: ./configure && make install-strip chdir=/tmp/{{ pureftpd_tag_name }}
   sudo: true
+  when: "'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names"
+
+- name: Install | Compile and install PureFTPD (Docker)
+  shell: ./configure --without-capabilities --with-puredb && make install-strip chdir=/tmp/{{ pureftpd_tag_name }}
+  sudo: true
+  when: "'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names"
+
+#  shell: ./configure --without-capabilities && make install-strip chdir=/tmp/{{ pureftpd_tag_name }}
