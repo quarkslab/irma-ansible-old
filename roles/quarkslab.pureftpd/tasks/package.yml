@@ -2,4 +2,12 @@
 
 - name: Install | Use apt to install Pure-FTPD
   apt: pkg=pure-ftpd state=present
-#  when: "ansible_os_family == 'Debian' and 'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names"
+  when: "ansible_os_family == 'Debian' and 'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names"
+
+- name: Install | Use apt to install Pure-FTPD from sources (FETCHING & COMPILING) (Docker)
+  shell:  apt-get -y build-dep pure-ftpd && mkdir /tmp/pure-ftpd/ && cd /tmp/pure-ftpd/ && apt-get source pure-ftpd && cd pure-ftpd-* && sed -i '/^optflags=/ s/$/ --without-capabilities/g' ./debian/rules && dpkg-buildpackage -b -uc
+  when: "'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names"
+
+- name: Install | Use apt to install Pure-FTPD from sources (INSTALLING) (Docker)
+  shell: dpkg -i /tmp/pure-ftpd/pure-ftpd-common*.deb && apt-get -y install openbsd-inetd && dpkg -i /tmp/pure-ftpd/pure-ftpd_*.deb && apt-mark hold pure-ftpd pure-ftpd-common
+  when: "'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names"
