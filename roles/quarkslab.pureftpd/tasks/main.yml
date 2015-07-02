@@ -4,7 +4,6 @@
 
 - include: install.yml
   when: "pureftpd_install_method == 'source'"
-# or 'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names"
 
 - include: package.yml
   when: pureftpd_install_method == "package"
@@ -20,4 +19,4 @@
 
 - name: Daemon | Ensure Pure-FTPD is started
   service: name=pure-ftpd state=started
-  when: "'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names"
+  when: "'docker' not in group_names"

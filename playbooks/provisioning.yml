@@ -5,7 +5,7 @@
   sudo: yes
   roles:
     - { role: quarkslab.apt, tags: 'apt' }
-    - { role: franklinkim.ufw, tags: 'ufw', when: "'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names"}
+    - { role: franklinkim.ufw, tags: 'ufw', when: "'docker' not in group_names"}
     - { role: quarkslab.irma_provisioning_common, tags: 'common' }
     - { role: mivok0.users, tags: 'users' }
     - { role: franklinkim.sudo, tags: 'sudo' }
@@ -22,7 +22,7 @@
     - { role: quarkslab.supervisor, tags: 'supervisor', supervisor_programs: "{{ supervisor_programs_frontend }}" }
     - { role: quarkslab.irma_provisioning_frontend, tags: 'frontend' }
     - { role: jdauphant.nginx, tags: 'nginx' }
-    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ frontend_ufw_additional_rules }}", when: "'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names" }
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ frontend_ufw_additional_rules }}", when: "'docker' not in group_names" }
 
 
 - name: Brain provisioning
@@ -33,7 +33,7 @@
     - { role: Mayeu.RabbitMQ, tags: 'rabbitmq' }
     - { role: quarkslab.pureftpd, tags: 'pureftpd' }
     - { role: quarkslab.irma_provisioning_brain, tags: 'brain' }
-    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ brain_ufw_additional_rules }}", when: "'docker-brain' not in group_names and 'docker-frontend' not in group_names and 'docker-probe' not in group_names" }
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ brain_ufw_additional_rules }}", when: "'docker' not in group_names" }
 
 
 - name: Probe provisioning
@@ -42,14 +42,6 @@
   roles:
     - { role: quarkslab.irma_provisioning_probe, tags: 'probe' }
     - { role: quarkslab.supervisor, tags: 'supervisor', supervisor_programs: "{{ supervisor_programs_probe }}" }
-
-- name: Probe provisioning
-  hosts: docker-probe
-  sudo: yes
-  roles:
-    - { role: quarkslab.irma_provisioning_probe, tags: 'probe' }
-    - { role: quarkslab.supervisor, tags: 'supervisor', supervisor_programs: "{{ supervisor_programs_probe }}" }
-
 
 # Antivirus section
 - name: ClamAV provisioning

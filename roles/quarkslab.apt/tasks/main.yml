@@ -1,7 +1,7 @@
 ---
 
 - include: cache.yml
-  when: "ansible_distribution == 'Debian' or 'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names"
+  when: "ansible_distribution == 'Debian' or 'docker' in group_names"
 
 - include: repositories.yml
-  when: "ansible_distribution == 'Debian' or 'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names"
+  when: "ansible_distribution == 'Debian' or 'docker' in group_names"

@@ -8,4 +8,4 @@
 
 - name: Update Apt if needed
   apt: update_cache=yes
-  when: "ansible_date_time.epoch|float - apt_cache_stat.stat.mtime > 60*60*24 and (ansible_os_family == 'Debian' or 'docker-brain' in group_names or 'docker-frontend' in group_names or 'docker-probe' in group_names)"
+  when: "ansible_date_time.epoch|float - apt_cache_stat.stat.mtime > 60*60*24 and (ansible_os_family == 'Debian' or 'docker' in group_names)"
