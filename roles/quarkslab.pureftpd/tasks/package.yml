@@ -10,4 +10,4 @@
 
 - name: Install | Use apt to install Pure-FTPD from sources (INSTALLING) (Docker)
   shell: dpkg -i /tmp/pure-ftpd/pure-ftpd-common*.deb && apt-get -y install openbsd-inetd && dpkg -i /tmp/pure-ftpd/pure-ftpd_*.deb && apt-mark hold pure-ftpd pure-ftpd-common
-  when: "'docker-brain' in group_names"
+  when: "'docker' in group_names"
