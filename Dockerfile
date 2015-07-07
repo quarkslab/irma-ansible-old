@@ -38,7 +38,7 @@ ADD ./roles/quarkslab.pureftpd/defaults/main.yml roles/quarkslab.pureftpd/defaul
 ADD ./roles/quarkslab.irma_provisioning_brain/handlers/main.yml roles/quarkslab.irma_provisioning_brain/handlers/main.yml
 ADD ./roles/quarkslab.irma_deployment_frontend/tasks/main.yml roles/quarkslab.irma_deployment_frontend/tasks/main.yml
 ADD ./roles/quarkslab.irma_deployment_probe/tasks/main.yml roles/quarkslab.irma_deployment_probe/tasks/main.yml
-
+ADD ./roles/quarkslab.irma_deployment_brain/tasks/main.yml roles/quarkslab.irma_deployment_brain/tasks/main.yml
 #RUN ls -l --color /tmp/install/irma-ansible/host
 
 
@@ -61,6 +61,7 @@ WORKDIR /tmp/install/
 
 ENV ANSIBLE_FORCE_COLOR true
 ENV PYTHONPATH "/opt/irma/irma-probe/current/"
+ENV HOSTNAME irma
 
 RUN true
 
@@ -72,7 +73,7 @@ RUN update-locale LANG=en_US.UTF-8
 
 RUN cd /tmp/install/irma-ansible && ansible-playbook -vvv -i /tmp/install/irma-ansible/hosts/irma /tmp/install/irma-ansible/playbooks/playbook.yml -c local
 
-RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-frontend/current/config/frontend.ini
+#RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-frontend/current/config/frontend.ini
 RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-brain/current/config/brain.ini
 
 #RUN service rabbitmq-server start
@@ -91,4 +92,10 @@ EXPOSE 8081
 EXPOSE 21
 EXPOSE 5672
 
-ENTRYPOINT  service rabbitmq-server start && cd /opt/irma/irma-brain/releases/20150703122408/extras/scripts/rabbitmq/ && ./rmq_adduser.sh frontend frontend mqfrontend && ./rmq_adduser.sh brain brain mqbrain && ./rmq_adduser.sh probe probe mqprobe && mongod & service postgresql start && service pure-ftpd start && service nginx start && /bin/bash
+WORKDIR /opt/irma/irma-brain/releases/20150703122408/extras/scripts/rabbitmq/
+
+#ENTRYPOINT  service rabbitmq-server start && ./rmq_adduser.sh frontend frontend mqfrontend && ./rmq_adduser.sh brain brain mqbrain && ./rmq_adduser.sh probe probe mqprobe && mongod & service postgresql start && service pure-ftpd start && service nginx start && /usr/local/bin/supervisord -c /etc/supervisord.conf && /bin/bash
+
+ADD supervisord.conf /supervisord.conf
+
+ENTRYPOINT ["/usr/local/bin/supervisord", "-c", "/supervisord.conf"]
