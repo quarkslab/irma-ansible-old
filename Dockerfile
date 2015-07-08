@@ -73,7 +73,7 @@ RUN update-locale LANG=en_US.UTF-8
 
 RUN cd /tmp/install/irma-ansible && ansible-playbook -vvv -i /tmp/install/irma-ansible/hosts/irma /tmp/install/irma-ansible/playbooks/playbook.yml -c local
 
-#RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-frontend/current/config/frontend.ini
+RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-frontend/current/config/frontend.ini
 RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-brain/current/config/brain.ini
 
 #RUN service rabbitmq-server start
@@ -92,9 +92,7 @@ EXPOSE 8081
 EXPOSE 21
 EXPOSE 5672
 
-WORKDIR /opt/irma/irma-brain/releases/20150703122408/extras/scripts/rabbitmq/
-
-#ENTRYPOINT  service rabbitmq-server start && ./rmq_adduser.sh frontend frontend mqfrontend && ./rmq_adduser.sh brain brain mqbrain && ./rmq_adduser.sh probe probe mqprobe && mongod & service postgresql start && service pure-ftpd start && service nginx start && /usr/local/bin/supervisord -c /etc/supervisord.conf && /bin/bash
+WORKDIR /opt/irma/irma-brain/releases/current/extras/scripts/rabbitmq/
 
 ADD supervisord.conf /supervisord.conf
 
