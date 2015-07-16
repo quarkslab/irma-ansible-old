@@ -1,7 +1,7 @@
 ---
 
 - include: debian_install_packages.yml
-  when: ansible_distribution == 'Debian'
+  when: "ansible_distribution == 'Debian' or 'docker' in group_names"
 
 - name: Checking installed version of npm
   shell: /usr/bin/test "$(npm -v 2> /dev/null)" = {{ nodejs_npm_version }}

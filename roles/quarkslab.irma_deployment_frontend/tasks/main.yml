@@ -49,6 +49,13 @@
   command: node_modules/.bin/bower install --config.interactive=false
   args:
     chdir: "{{ frontend_deployment_dir }}/web"
+  when: "'docker' not in group_names"
+
+- name: Install Bower dependencies
+  command: node_modules/.bin/bower install --allow-root --config.interactive=false
+  args:
+    chdir: "{{ frontend_deployment_dir }}/web"
+  when: "'docker' in group_names"
 
 - name: Generate Web Frontend
   command: node_modules/.bin/gulp dist

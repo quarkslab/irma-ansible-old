@@ -53,3 +53,4 @@
     state: restarted
   sudo: yes
   with_items: supervisor_programs_brain
+  when: "'docker' not in group_names"
