@@ -47,6 +47,8 @@ RUN cd /tmp/install/irma-ansible && ansible-playbook -vvv -i /tmp/install/irma-a
 RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-frontend/current/config/frontend.ini
 RUN sed -i 's/brain.irma/127.0.0.1/' /opt/irma/irma-brain/current/config/brain.ini
 
+RUN echo "39000 39020" > /etc/pure-ftpd/conf/PassivePortRange
+
 EXPOSE 80
 EXPOSE 8081
 EXPOSE 21
