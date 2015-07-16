@@ -27,3 +27,5 @@ group_vars/probe
 
 # Ignore python files (ansible plugins or scripts)
 *.pyc
+# Docker
+./Dockerfile
