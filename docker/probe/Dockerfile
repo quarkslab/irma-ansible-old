@@ -28,6 +28,8 @@ ADD ./roles/quarkslab.irma_deployment_brain/tasks/main.yml roles/quarkslab.irma_
 ADD ./roles/quarkslab.avg/tasks/main.yml roles/quarkslab.avg/tasks/main.yml
 ADD ./roles/quarkslab.bitdefender/tasks/install.yml roles/quarkslab.bitdefender/tasks/install.yml
 
+ADD ./roles/quarkslab.virusblokada/defaults/main.yml roles/quarkslab.virusblokada/defaults/main.yml
+
 WORKDIR /
 
 RUN mkdir /var/log/mongodb
@@ -49,4 +51,9 @@ RUN cd /tmp/install/irma-ansible && ansible-playbook -vvv -i /tmp/install/irma-a
 RUN sed -i 's/brain.irma/irma/' /opt/irma/irma-probe/current/config/probe.ini
 RUN sed -i "s/nodaemon = false/nodaemon = true/" /etc/supervisord.conf
 
-ENTRYPOINT ["/usr/local/bin/supervisord", "-c", "/etc/supervisord.conf"]
+ADD ./docker/probe/supervisord.conf /supervisord.conf
+
+RUN chmod 755 /usr/local/uvscan/uvscan
+ENV TERM dumb
+
+ENTRYPOINT ["/usr/local/bin/supervisord", "-c", "/supervisord.conf"]
