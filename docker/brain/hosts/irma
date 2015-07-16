@@ -1,0 +1,10 @@
+# Put your host's IP in the corresponding section
+
+[frontend]
+localhost
+[brain]
+localhost
+[probe]
+
+[docker]
+localhost

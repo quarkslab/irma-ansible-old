@@ -1,0 +1,38 @@
+# Put your host's IP in the corresponding section
+
+[frontend]
+[brain]
+[probe]
+localhost
+
+[mcafee]
+localhost
+[clamav]
+localhost
+[comodo]
+localhost
+[avg]
+localhost
+[bitdefender]
+localhost
+[virusblokada]
+localhost
+
+[docker]
+localhost
+
+
+# need a key
+[drweb]
+#not an antivirus
+[static-analyzer]
+#not a antivirus
+[peid]
+#need a key
+[zoner]
+#need a valid url
+[escan]
+#need internet
+[virustotal]
+#need a key
+[avast]
