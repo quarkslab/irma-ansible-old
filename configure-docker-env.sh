@@ -3,16 +3,19 @@
 
 if [ "$1" = "probe" ]
 then
-    echo "[+] Building probe"
+    echo "[+] Configuring docker environment for probe"
     cp ./docker/probe/Dockerfile .
     cp ./docker/probe/hosts/irma ./hosts/irma
-    docker build -t "probe" .
 elif [ "$1" = 'brain' ]
 then
-    echo "[+] Building brain"
+    echo "[+] Configuring docker environment for brain"
     cp ./docker/brain/Dockerfile .
     cp ./docker/brain/hosts/irma ./hosts/irma
-    docker build -t "brain" .
 else
     echo "Usage:" $0 "[probe|brain]"
+    exit 1
 fi
+
+echo "Done. You can now run docker build ."
+
+exit 0
