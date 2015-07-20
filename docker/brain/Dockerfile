@@ -4,7 +4,7 @@ RUN mkdir /tmp/install/
 WORKDIR /tmp/install/
 
 RUN apt-get update && apt-get -y install git
-RUN git clone https://github.com/quarkslab/irma-ansible.git && git checkout testing
+RUN git clone https://github.com/quarkslab/irma-ansible.git
 
 WORKDIR /tmp/install/irma-ansible/
 
