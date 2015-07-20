@@ -16,7 +16,7 @@ RUN ansible-galaxy install -r ansible-requirements.yml
 
 ADD ./roles/quarkslab.irma_provisioning_common/tasks/main.yml roles/quarkslab.irma_provisioning_common/tasks/main.yml
 ADD ./roles/quarkslab.nodejs/tasks/main.yml roles/quarkslab.nodejs/tasks/main.yml
-ADD ./playbooks/group_vars/frontend playbooks/group_vars/frontend
+ADD ./playbooks/group_vars/frontend.yml playbooks/group_vars/frontend.yml
 ADD ./roles/quarkslab.pureftpd/tasks/install.yml roles/quarkslab.pureftpd/tasks/install.yml
 ADD ./roles/quarkslab.pureftpd/tasks/main.yml roles/quarkslab.pureftpd/tasks/main.yml
 ADD ./roles/quarkslab.pureftpd/tasks/package.yml roles/quarkslab.pureftpd/tasks/package.yml
