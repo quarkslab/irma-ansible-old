@@ -8,7 +8,7 @@ RUN git clone https://github.com/quarkslab/irma-ansible.git
 
 WORKDIR /tmp/install/irma-ansible/
 
-ADD hosts/irma ./hosts/irma
+ADD docker/brain/hosts/irma ./hosts/irma
 ADD playbooks/provisioning.yml ./playbooks/provisioning.yml
 
 ADD ansible-requirements.yml ansible-requirements.yml
