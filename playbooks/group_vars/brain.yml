@@ -102,6 +102,7 @@ pureftpd_options:
   PAMAuthentication: "no"
   TLS: "2"
   PassivePortRange: "65435 65535"
+  TLSCipherSuite: "ALL:-SSLv2:!ADH:!aNULL:!eNULL:!EXPORT:!DSS:!DES:RC4-SHA:RC4-MD5:AES256-SHA:AES128-SHA:DES-CBC3-SHA"
 
 # Brain role
 brain_pureftpd_virtual_users:
