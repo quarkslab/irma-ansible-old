@@ -4,7 +4,8 @@ RUN mkdir /tmp/install/
 WORKDIR /tmp/install/
 
 RUN apt-get update && apt-get -y install git
-RUN git clone https://github.com/quarkslab/irma-ansible.git
+RUN git config --global user.email "nobody@nobody.com" && git config --global user.name "nobody" && git clone https://github.com/quarkslab/irma-ansible.git && cd irma-ansible && git pull origin testing
+
 WORKDIR /tmp/install/irma-ansible/
 
 ADD docker/probe/hosts/irma ./hosts/irma
