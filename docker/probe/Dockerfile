@@ -4,7 +4,7 @@ RUN mkdir /tmp/install/
 WORKDIR /tmp/install/
 
 RUN apt-get update && apt-get -y install git
-RUN git config --global user.email "nobody@nobody.com" && git config --global user.name "nobody" && git clone https://github.com/quarkslab/irma-ansible.git && cd irma-ansible && git pull origin testing
+RUN git config --global user.email "nobody@nobody.com" && git config --global user.name "nobody" && git clone https://github.com/p-col/irma-ansible.git && cd irma-ansible && git pull origin docker && git checkout docker
 
 WORKDIR /tmp/install/irma-ansible/
 
@@ -30,6 +30,7 @@ ADD ./roles/quarkslab.avg/tasks/main.yml roles/quarkslab.avg/tasks/main.yml
 ADD ./roles/quarkslab.bitdefender/tasks/install.yml roles/quarkslab.bitdefender/tasks/install.yml
 
 ADD ./roles/quarkslab.virusblokada/defaults/main.yml roles/quarkslab.virusblokada/defaults/main.yml
+ADD ./roles/quarkslab.apt/tasks/main.yml roles/quarkslab.apt/tasks/main.yml
 
 WORKDIR /
 
