@@ -4,11 +4,11 @@ RUN mkdir /tmp/install/
 WORKDIR /tmp/install/
 
 RUN apt-get update && apt-get -y install git
-RUN git clone https://github.com/quarkslab/irma-ansible.git
+RUN git config --global user.email "nobody@nobody.com" && git config --global user.name "nobody" && git clone https://github.com/p-col/irma-ansible.git && cd irma-ansible && git pull origin docker && git checkout docker
 
 WORKDIR /tmp/install/irma-ansible/
 
-ADD hosts/irma ./hosts/irma
+ADD docker/brain/hosts/irma ./hosts/irma
 ADD playbooks/provisioning.yml ./playbooks/provisioning.yml
 
 ADD ansible-requirements.yml ansible-requirements.yml
@@ -17,8 +17,8 @@ RUN ansible-galaxy install -r ansible-requirements.yml
 
 ADD ./roles/quarkslab.irma_provisioning_common/tasks/main.yml roles/quarkslab.irma_provisioning_common/tasks/main.yml
 ADD ./roles/quarkslab.nodejs/tasks/main.yml roles/quarkslab.nodejs/tasks/main.yml
-ADD ./playbooks/group_vars/frontend playbooks/group_vars/frontend
-ADD ./playbooks/group_vars/brain playbooks/group_vars/brain
+ADD ./playbooks/group_vars/frontend.yml playbooks/group_vars/frontend.yml
+ADD ./playbooks/group_vars/brain.yml playbooks/group_vars/brain.yml
 ADD ./roles/quarkslab.pureftpd/tasks/install.yml roles/quarkslab.pureftpd/tasks/install.yml
 ADD ./roles/quarkslab.pureftpd/tasks/main.yml roles/quarkslab.pureftpd/tasks/main.yml
 ADD ./roles/quarkslab.pureftpd/tasks/package.yml roles/quarkslab.pureftpd/tasks/package.yml
@@ -27,6 +27,8 @@ ADD ./roles/quarkslab.irma_provisioning_brain/handlers/main.yml roles/quarkslab.
 ADD ./roles/quarkslab.irma_deployment_frontend/tasks/main.yml roles/quarkslab.irma_deployment_frontend/tasks/main.yml
 ADD ./roles/quarkslab.irma_deployment_probe/tasks/main.yml roles/quarkslab.irma_deployment_probe/tasks/main.yml
 ADD ./roles/quarkslab.irma_deployment_brain/tasks/main.yml roles/quarkslab.irma_deployment_brain/tasks/main.yml
+ADD ./roles/quarkslab.apt/tasks/main.yml roles/quarkslab.apt/tasks/main.yml
+ADD ./roles ./
 
 WORKDIR /
 
