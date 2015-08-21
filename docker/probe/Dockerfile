@@ -3,7 +3,7 @@ FROM ansible/ubuntu14.04-ansible:stable
 RUN mkdir /tmp/install/
 WORKDIR /tmp/install/
 
-RUN apt-get update && apt-get -y install git
+RUN apt-get update && apt-get -y install git ansible
 RUN git config --global user.email "nobody@nobody.com" && git config --global user.name "nobody" && git clone https://github.com/p-col/irma-ansible.git && cd irma-ansible && git pull origin docker && git checkout docker
 
 WORKDIR /tmp/install/irma-ansible/
