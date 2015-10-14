@@ -11,6 +11,7 @@
     dest: "{{ probe_deployment_dir }}"
     version: "{{ irma_deployment_code_version }}"
     accept_hostkey: yes
+  environment: proxy_env
   when: irma_deployment_code_version != 'local'
 
 - name: Install requirements in a virtualenv

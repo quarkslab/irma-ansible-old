@@ -6,6 +6,7 @@
     dest: "{{ frontend_deployment_dir }}/docs"
     version: "{{ irma_deployment_code_version }}"
     accept_hostkey: yes
+  environment: proxy_env
   when: irma_deployment_code_version != 'local'
 
 - name: Install sphinx in a virtualenv

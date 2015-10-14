@@ -14,6 +14,7 @@
     dest: "{{ frontend_deployment_dir }}"
     version: "{{ irma_deployment_code_version }}"
     accept_hostkey: yes
+  environment: proxy_env
   when: irma_deployment_code_version != 'local'
 
 - name: Install requirements in a Frontend virtualenv
@@ -37,6 +38,7 @@
     production: "{{ irma_environment == 'production' }}"
     ignore_scripts: yes
     state: latest
+  environment: proxy_env
 
 - name: Copy previous Bower files
   shell: "cp -R {{frontend_install_dir}}/web/app/components {{frontend_deployment_dir}}/web/app/components"
@@ -50,6 +52,7 @@
   command: node_modules/.bin/bower install --config.interactive=false
   args:
     chdir: "{{ frontend_deployment_dir }}/web"
+  environment: proxy_env
 
 - name: Generate Web Frontend
   command: node_modules/.bin/gulp dist

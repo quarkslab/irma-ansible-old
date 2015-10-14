@@ -17,6 +17,7 @@
   get_url:
     url: "{{ comodo_cavl_deb_url }}"
     dest: "{{ comodo_cavl_temp_dir }}/comodo.deb"
+  environment: proxy_env
   when: ansible_os_family == "Debian"
 
 - name: ComodoCAVL | Extract files
@@ -30,6 +31,7 @@
 
 - name: ComodoCAVL | Download Update
   command: wget -Nc -r -nd -l1 {{ comodo_cavl_update_url }}
+  environment: proxy_env
   args:
     chdir: "{{ comodo_cavl_temp_dir }}/"
     creates: "{{ comodo_cavl_temp_dir }}/bases.cav"
