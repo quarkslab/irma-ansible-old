@@ -1,0 +1,7 @@
+---
+
+web_ui_project_dir: "/opt/irma/web-ui"
+web_ui_deployment_repository: "https://github.com/quarkslab/irma-web-ui.git"
+web_ui_install_dir: "{{ web_ui_project_dir }}/current"
+
+# vim: sw=2

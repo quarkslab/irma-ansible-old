@@ -2,22 +2,22 @@
 # Variables used by Vagrantfile are defined here
 
 servers:
-  - name: brain.irma
+  - name: brain
     box: quarkslab/debian-8.2.0-amd64
     ip: 172.16.1.30
     hostname: brain.irma
     cpus: 2
     cpuexecutioncap: 100
     memory: 2048
+    aliases:
+        - www.irma.dev
+        - api.irma.dev
     shares:
       - share_from: ../irma-frontend
         share_to: /opt/irma/irma-frontend/current
         share_exclude:
           - .git/
           - venv/
-          - web/dist
-          - web/node_modules
-          - app/components
       - share_from: ../irma-brain
         share_to: /opt/irma/irma-brain/current
         share_exclude:
@@ -29,6 +29,13 @@ servers:
         share_exclude:
           - .git/
           - venv/
+      - share_from: ../irma-web-ui
+        share_to: /opt/irma/irma-web-ui/current
+        share_exclude:
+          - .git/
+          - dist
+          - node_modules
+          - app/components
 ## NOTE: The following adds a windows VM to IRMA. This is not enabled by
 ## default in allinone_dev because of known limitations due to shared folders.
 ## Please have a look at the documentation if ## you want to enable this in an dev
@@ -58,6 +65,8 @@ ansible_config:
     frontend:
       - brain.irma
     brain:
+      - brain.irma
+    web-ui:
       - brain.irma
     clamav:
       - brain.irma

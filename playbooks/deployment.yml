@@ -6,6 +6,12 @@
   roles:
     - { role: quarkslab.irma_deployment_frontend, tags: 'deployment_frontend' }
 
+- name: Web User-Interface deployment
+  hosts: "web-ui"
+  remote_user: "{{web_ui_user}}"
+  roles:
+    - { role: quarkslab.irma_deployment_web_ui, tags: 'deployment_web_ui' }
+
 - name: Brain deployment
   hosts: brain
   remote_user: "{{ brain_user }}"
