@@ -3,6 +3,10 @@
   win_chocolatey:
     name: pywin32
 
+- name: Installing Chocolatey Packages | vcpython27
+  win_chocolatey:
+    name: vcpython27
+
 - name: Installing Chocolatey Packages | git
   win_chocolatey:
     name: git
