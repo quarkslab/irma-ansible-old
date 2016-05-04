@@ -7,7 +7,7 @@
   when: irma_deployment_code_version != 'local'
 
 - name: Clone irma-probe repository
-  raw: "{{ item.cmd }}"
+  raw: CMD /C '"{{ item.cmd }}"'
   register: result
   failed_when: result.rc not in {{ item.rc | default([0]) }}
   with_items:
@@ -35,13 +35,13 @@
   with_items: probe_deployment_configs
 
 - name: Create symlink release -> current
-  raw: "{{ item.cmd }}"
+  raw: cmd /C '"{{ item.cmd }}"'
   register: result
   failed_when: result.rc not in {{ item.rc | default([0]) }}
   with_items:
-    - cmd: 'rmdir /q /s "{{ probe_install_dir }}"'
-      rc: [0, 2]
-    - cmd: 'mklink /d "{{ probe_install_dir }}" "{{ probe_deployment_dir }}"'
+    - cmd: rmdir /q /s "{{ probe_install_dir }}"
+      rc: [0, 1, 2]
+    - cmd: mklink /d "{{ probe_install_dir }}" "{{ probe_deployment_dir }}"
       rc: [0, 2]
   when: irma_deployment_code_version != 'local'
 

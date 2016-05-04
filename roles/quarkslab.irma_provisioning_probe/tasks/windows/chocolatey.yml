@@ -6,5 +6,5 @@
   failed_when: result.rc not in [0, 1]
 
 - name: Chocolatey | Install
-  script: ../../files/chocolatey.bat
+  script: chocolatey.bat
   when: result.stdout == ""
