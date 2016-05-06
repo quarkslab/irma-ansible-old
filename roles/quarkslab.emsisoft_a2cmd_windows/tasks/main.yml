@@ -1,18 +1,18 @@
 ---
 
 - name: Determine remote_tmp variable
-  raw: echo '%TEMP%'
+  raw: CMD /C echo '%TEMP%'
   register: echo_temp
 
 - set_fact:
-    remote_tmp: '{{ echo_temp.stdout[1:-3] | regex_replace("\\\\", "/") }}'
+    remote_tmp: '{{ echo_temp.stdout_lines[0] | regex_replace("\\\\", "/") }}'
 
 - name: Determine ProgramFiles(x86)
-  raw: echo '%PROGRAMFILES(x86)%'
+  raw: CMD /C echo '%PROGRAMFILES(x86)%'
   register: echo_programfiles
 
 - set_fact:
-    remote_programfile: '{{ echo_programfiles.stdout[1:-3] | regex_replace("\\\\", "/") }}'
+    remote_programfile: '{{ echo_programfiles.stdout_lines[0] | regex_replace("\\\\", "/") }}'
 
 ## Install
 - name: Checking if already installed

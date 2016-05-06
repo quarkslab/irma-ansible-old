@@ -7,7 +7,7 @@
   when: irma_deployment_code_version != 'local'
 
 - name: Clone irma-probe repository
-  raw: "{{ item.cmd }}"
+  raw: CMD /C '"{{ item.cmd }}"'
   register: result
   failed_when: result.rc not in {{ item.rc | default([0]) }}
   with_items:
@@ -23,8 +23,7 @@
   failed_when: result.rc not in {{ item.rc | default([0]) }}
   with_items:
     - cmd: python -m virtualenv --system-site-packages "{{ probe_deployment_dir }}/venv"
-    - cmd: "{{ probe_deployment_dir }}/venv/Scripts/activate"
-    - cmd: python -m pip install -r "{{ probe_deployment_dir }}/requirements.txt"
+    - cmd: "{{ probe_deployment_dir }}/venv/Scripts/python.exe -m pip install -r {{ probe_deployment_dir }}/requirements.txt"
 
 - name: Configure config/probe.ini file
   win_ini_file:
@@ -35,13 +34,13 @@
   with_items: probe_deployment_configs
 
 - name: Create symlink release -> current
-  raw: "{{ item.cmd }}"
+  raw: cmd /C '"{{ item.cmd }}"'
   register: result
   failed_when: result.rc not in {{ item.rc | default([0]) }}
   with_items:
-    - cmd: 'rmdir /q /s "{{ probe_install_dir }}"'
-      rc: [0, 2]
-    - cmd: 'mklink /d "{{ probe_install_dir }}" "{{ probe_deployment_dir }}"'
+    - cmd: rmdir /q /s "{{ probe_install_dir }}"
+      rc: [0, 1, 2]
+    - cmd: mklink /d "{{ probe_install_dir }}" "{{ probe_deployment_dir }}"
       rc: [0, 2]
   when: irma_deployment_code_version != 'local'
 
