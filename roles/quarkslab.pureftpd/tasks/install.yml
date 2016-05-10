@@ -11,3 +11,9 @@
 - name: Install | Compile and install PureFTPD
   shell: ./configure && make install-strip chdir=/tmp/{{ pureftpd_tag_name }}
   sudo: true
+  when: "'docker' not in group_names"
+
+- name: Install | Compile and install PureFTPD (Docker)
+  shell: ./configure --without-capabilities --with-puredb && make install-strip chdir=/tmp/{{ pureftpd_tag_name }}
+  sudo: true
+  when: "'docker' in group_names"

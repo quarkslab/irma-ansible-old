@@ -26,6 +26,9 @@
     replace: 'cat  LICENSE'
     backup: yes
 
+- name: BitDefender | Installing psmisc (Docker)
+  apt: name=psmisc state=present
+
 - name: BitDefender | Run installer, do not install GUI
   shell: (echo 'accept'; echo 'n') | sh /tmp/BitDefender-Antivirus-Scanner-linux.run
   sudo: yes

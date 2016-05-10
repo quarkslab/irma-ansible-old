@@ -3,10 +3,10 @@
 # TODO: Check Pure-FTPD version and to compare to the requested version.
 
 - include: install.yml
-  when: pureftpd_install_method == "source"
+  when: "pureftpd_install_method == 'source'"
 
 - include: package.yml
-  when: pureftpd_install_method == "package"
+  when: "pureftpd_install_method == 'package'"
 
 - name: Configuration | Check for --tlsciphersuite option
   shell: "pure-ftpd -h"
@@ -34,3 +34,4 @@
 
 - name: Daemon | Ensure Pure-FTPD is started
   service: name=pure-ftpd state=started
+  when: "'docker' not in group_names"
