@@ -1,7 +1,7 @@
 ---
 
 ## Global variables
-hostname: frontend.irma
+frontend_hostname: "frontend.irma.dev"
 
 frontend_user: "{{ default_user }}"
 frontend_group: "{{ default_group }}"
@@ -161,8 +161,17 @@ supervisor_programs_frontend:
     killasgroup: true
 
 
-## Nginx role
-nginx_configs:
+## Nginx
+nginx_configs_frontend:
+  http:
+    - server_names_hash_bucket_size 64
+  zip:
+    - gzip on
+    - gzip_disable "msie6"
+    - gzip_comp_level 6
+    - gzip_buffers 16 8k
+    - gzip_http_version 1.1
+    - gzip_types text/plain text/css application/json application/x-javascript text/javascript application/javascript
   proxy:
     - proxy_set_header X-Real-IP $remote_addr
     - proxy_set_header Host $http_host
@@ -172,23 +181,12 @@ nginx_configs:
     - proxy_http_version 1.1
     - proxy_set_header Upgrade $http_upgrade
     - proxy_set_header Connection "upgrade"
-  gzip:
-    - gzip on
-    - gzip_disable "msie6"
-    - gzip_comp_level 6
-    - gzip_buffers 16 8k
-    - gzip_http_version 1.1
-    - gzip_types text/plain text/css application/json application/x-javascript text/javascript application/javascript
-  http:
-    - server_names_hash_bucket_size 64
 
-nginx_sites:
-  default:
-    - listen 80
+
+nginx_sites_frontend:
   irma-frontend:
-    - listen 80 default_server
-    - listen [::]:80 default_server ipv6only=on
-    - server_name www.{{ hostname }}
+    - listen 80
+    - server_name {{ frontend_hostname }}
     - client_max_body_size 100m
     - location ~ /\.ht {
         deny all;
@@ -202,21 +200,14 @@ nginx_sites:
         alias {{ frontend_install_dir }}/swagger/ui;
         index index.html;
       }
-    - location / {
-        expires -1;
-        add_header Pragma "no-cache";
-        add_header Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
-        root {{ frontend_install_dir }}/web/dist;
-        try_files $uri $uri/ /index.html =404;
-      }
-    - error_log {{ nginx_log_dir }}/{{ hostname }}.error.log
-    - access_log {{ nginx_log_dir }}/{{ hostname }}.access.log
+    - error_log {{ nginx_log_dir }}/{{ frontend_hostname }}.error.log
+    - access_log {{ nginx_log_dir }}/{{ frontend_hostname }}.access.log
   # Uncomment the following for HTTPs using OpenSSL support
   # It can be customize for your needs (add the swagger API, …)
   #irma-frontend-https:
     #- listen 443 default_server
     #- listen [::]:443 default_server ipv6only=on
-    #- server_name www.{{ hostname }}
+    #- server_name {{ frontend_hostname }}
     #- client_max_body_size 100m
     #- location ~ /\.ht {
         #deny all;
@@ -226,12 +217,8 @@ nginx_sites:
         #rewrite ^/_api/(.+) /$1 break;
         #uwsgi_pass 127.0.0.1:8081;
       #}
-    #- location / {
-        #alias {{ frontend_install_dir }}/web/dist/;
-        #index index.html;
-      #}
-    #- error_log {{ nginx_log_dir }}/{{ hostname }}.error.log
-    #- access_log {{ nginx_log_dir }}/{{ hostname }}.access.log
+    #- error_log {{ nginx_log_dir }}/{{ frontend_hostname }}.error.log
+    #- access_log {{ nginx_log_dir }}/{{ frontend_hostname }}.access.log
     ## TLS configuration
     #- ssl on
     #- ssl_certificate {{ frontend_openssl_certificates.cert.dst }}

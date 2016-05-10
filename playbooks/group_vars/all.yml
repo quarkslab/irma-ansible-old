@@ -68,6 +68,20 @@ ufw_login: on
 ufw_applications:
   - { name: "OpenSSH" }
 
+
+## Nginx
+nginx_configs:
+  http:
+    - server_names_hash_bucket_size 64
+  zip:
+    - gzip on
+    - gzip_disable "msie6"
+    - gzip_comp_level 6
+    - gzip_buffers 16 8k
+    - gzip_http_version 1.1
+    - gzip_types text/plain text/css application/json application/x-javascript text/javascript application/javascript
+
+
 ## OpenSSH server config
 sshd:
   AcceptEnv: LANG
