@@ -1,7 +1,7 @@
 ---
 
 - include: linux/provisioning_probe.yml
-  when: "ansible_distribution in ['Debian', 'Ubuntu']"
+  when: "ansible_distribution in ['Debian', 'Ubuntu'] and not docker_build"
   sudo: yes
 
 - include: windows/provisioning_probe.yml
