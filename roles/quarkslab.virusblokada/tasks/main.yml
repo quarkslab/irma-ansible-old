@@ -15,13 +15,15 @@
     - libstdc++6
 
 - name: VBA32 | Check version
-  command: /opt/vba/vbacl --version
+  command: /opt/vba/vbacl/vbacl --version
   ignore_errors: yes
   register: virusblokada_present
 
 - include: install.yml
   when: virusblokada_present | failed
 
+# vbaupd segfaults if IPv6 addresses are present in /etc/hosts
+# when docker is used, cannot copy or move file to /etc/hosts, but shell redirections work
 - name: VBA32 | Update definition files
-  shell: vbacl --update
+  shell: cp /etc/hosts /etc/hosts.bak; grep -v ':' /etc/hosts.bak > /etc/hosts; vbacl --update; cat /etc/hosts.bak > /etc/hosts; rm /etc/hosts.bak
   sudo: yes
