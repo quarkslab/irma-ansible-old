@@ -150,7 +150,7 @@ supervisor_programs_frontend:
     killasgroup: true
   - name: frontend_api
     command: >
-      uwsgi -s 127.0.0.1:8081 --disable-logging --master --workers 4 --need-app
+      uwsgi -s 0.0.0.0:8081 --disable-logging --master --workers 4 --need-app
       --plugins python --chdir {{ frontend_install_dir }} --home {{ frontend_install_dir }}/venv
       --python-path {{ frontend_install_dir }}/venv --mount /api=frontend/api/base.py --lazy
     user: "{{ irma_user }}"
