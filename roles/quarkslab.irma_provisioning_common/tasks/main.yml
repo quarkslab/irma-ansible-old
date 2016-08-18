@@ -7,7 +7,7 @@
     sysctl_set: yes
     state: present
     reload: yes
-  when: ansible_distribution in ['Debian', 'Ubuntu']
+  when: ansible_distribution in ['Debian', 'Ubuntu'] and not docker_build
 
 - include: debian_install_packages.yml
   when: ansible_distribution == 'Debian'

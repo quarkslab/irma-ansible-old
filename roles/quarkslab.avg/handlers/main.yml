@@ -5,3 +5,4 @@
     name: avgd
     state: restarted
   sudo: yes
+  when: not docker_build

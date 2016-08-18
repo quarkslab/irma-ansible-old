@@ -4,4 +4,5 @@
   service:
     name: avast
     state: restarted
+  when: not docker_build
   sudo: yes

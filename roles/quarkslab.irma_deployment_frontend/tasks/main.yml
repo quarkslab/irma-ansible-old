@@ -80,6 +80,7 @@
     name: "{{ item.name }}"
     state: restarted
   sudo: yes
+  when: not docker_build
   with_items: "{{ supervisor_programs_frontend }}"
 
 - name: Restart Init.d services
@@ -87,5 +88,6 @@
     name: "{{ item }}"
     state: restarted
   sudo: yes
+  when: not docker_build
   with_items:
     - nginx
