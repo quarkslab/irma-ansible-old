@@ -6,18 +6,25 @@ servers:
     box: quarkslab/debian-8.2.0-amd64
     ip: 172.16.1.30
     hostname: brain.irma
+    aliases:
+      - www.irma.local
+      - api.irma.local
     cpus: 2
     cpuexecutioncap: 100
     memory: 2048
     shares:
+      - share_from: ../irma-web-ui
+        share_to: /opt/irma/irma-web-ui/current
+        share_exclude:
+          - .git/
+          - dist
+          - node_modules
+          - components
       - share_from: ../irma-frontend
         share_to: /opt/irma/irma-frontend/current
         share_exclude:
           - .git/
           - venv/
-          - web/dist
-          - web/node_modules
-          - app/components
       - share_from: ../irma-brain
         share_to: /opt/irma/irma-brain/current
         share_exclude:
