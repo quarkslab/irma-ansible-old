@@ -1,7 +1,7 @@
 ---
 
 ## Global variables
-hostname: frontend.irma
+hostname: "api.irma.local"
 
 frontend_user: "{{ default_user }}"
 frontend_group: "{{ default_group }}"
@@ -186,12 +186,10 @@ nginx_configs:
     - server_names_hash_bucket_size 64
 
 nginx_sites:
-  default:
-    - listen 80
-  irma-frontend:
+  irma-api:
     - listen 80 default_server
     - listen [::]:80 default_server ipv6only=on
-    - server_name www.{{ hostname }}
+    - server_name {{ hostname }}
     - client_max_body_size 100m
     - location ~ /\.ht {
         deny all;
@@ -204,13 +202,6 @@ nginx_sites:
     - location /swagger {
         alias {{ frontend_install_dir }}/swagger/ui;
         index index.html;
-      }
-    - location / {
-        expires -1;
-        add_header Pragma "no-cache";
-        add_header Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
-        root {{ frontend_install_dir }}/web/dist;
-        try_files $uri $uri/ /index.html =404;
       }
     - error_log {{ nginx_log_dir }}/{{ hostname }}.error.log
     - access_log {{ nginx_log_dir }}/{{ hostname }}.access.log

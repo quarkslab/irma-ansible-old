@@ -12,11 +12,18 @@
     - { role: willshersystems.sshd, tags: 'openssh' }
 
 
+- name: Web client provisioning
+  hosts: ["web_ui"]
+  sudo: yes
+    - { role: quarkslab.nodejs, tags: 'nodejs' }
+    - { role: jdauphant.nginx, tags: 'nginx' }
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ frontend_ufw_additional_rules }}" }
+
+
 - name: Frontend provisioning
   hosts: ["frontend", "frontend-demo"]
   sudo: yes
   roles:
-    - { role: quarkslab.nodejs, tags: 'nodejs' }
     - { role: gdamjan.uwsgi, tags: 'uwsgi' }
     - { role: ANXS.postgresql, tags: 'postgresql' }
     - { role: quarkslab.supervisor, tags: 'supervisor', supervisor_programs: "{{ supervisor_programs_frontend }}" }
