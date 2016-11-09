@@ -1,5 +1,11 @@
 ---
 
+- name: Web client provisioning
+  hosts: ["web-ui"]
+  remote_user: "{{web_ui_user}}"
+  roles:
+    - { role: quarkslab.irma_deployment_web_ui, tags: 'ui' }
+
 - name: Frontend deployment
   hosts: [ "frontend", "frontend-demo"]
   remote_user: "{{ frontend_user }}"

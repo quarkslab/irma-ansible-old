@@ -2,22 +2,29 @@
 # Variables used by Vagrantfile are defined here
 
 servers:
-  - name: brain.irma
+  - name: allinone
     box: quarkslab/debian-8.2.0-amd64
     ip: 172.16.1.30
     hostname: brain.irma
+    aliases:
+      - irma-allinone.local
+      - api.irma-allinone.local
     cpus: 2
     cpuexecutioncap: 100
     memory: 2048
     shares:
+      - share_from: ../irma-web-ui
+        share_to: /opt/irma/irma-web-ui/current
+        share_exclude:
+          - .git/
+          - dist
+          - node_modules
+          - components
       - share_from: ../irma-frontend
         share_to: /opt/irma/irma-frontend/current
         share_exclude:
           - .git/
           - venv/
-          - web/dist
-          - web/node_modules
-          - app/components
       - share_from: ../irma-brain
         share_to: /opt/irma/irma-brain/current
         share_exclude:
@@ -34,7 +41,7 @@ servers:
 ## Please have a look at the documentation if ## you want to enable this in an dev
 ## environment.
 ## NOTE: hostname cannot be more that 15 characters
-##   - name: probe-win.irma
+##   - name: probe-win
 ##     box: eval-win8x64-enterprise
 ##     ip: 172.16.1.31
 ##     hostname: probe-win.irma
@@ -55,26 +62,28 @@ ansible_config:
     vagrant_share: true
     irma_environment: development
   groups:
+    web-ui:
+      - allinone
     frontend:
-      - brain.irma
+      - allinone
     brain:
-      - brain.irma
+      - allinone
     clamav:
-      - brain.irma
+      - allinone
     comodo:
-      - brain.irma
+      - allinone
     eset-nod32:
-      - brain.irma
+      - allinone
     mcafee:
-      - brain.irma
+      - allinone
     trid:
-      - brain.irma
+      - allinone
     static-analyzer:
-      - brain.irma
+      - allinone
     virustotal:
-      - brain.irma
+      - allinone
     windows-probe:
-      - probe-win.irma
+      - probe-win
     "probe:children":
       - clamav
       - comodo

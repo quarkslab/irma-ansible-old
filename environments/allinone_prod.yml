@@ -2,15 +2,18 @@
 # Variables used by Vagrantfile are defined here
 
 servers:
-  - name: brain.irma
+  - name: allinone
     box: quarkslab/debian-8.2.0-amd64
     ip: 172.16.1.30
     hostname: brain.irma
+    aliases:
+      - irma-allinone.local
+      - api.irma-allinone.local
     cpus: 2
     cpuexecutioncap: 100
     memory: 2048
     share_code: false
-##   - name: probe-win.irma
+##   - name: probe-win
 ##     box: eval-win8x64-enterprise
 ##     ip: 172.16.1.31
 ##     hostname: probe-win.irma
@@ -23,24 +26,26 @@ ansible_config:
   extra_vars:
     vagrant: true
   groups:
+    web-ui:
+      - allinone
     frontend:
-      - brain.irma
+      - allinone
     brain:
-      - brain.irma
+      - allinone
     clamav:
-      - brain.irma
+      - allinone
     comodo:
-      - brain.irma
+      - allinone
     mcafee:
-      - brain.irma
+      - allinone
     trid:
-      - brain.irma
+      - allinone
     static-analyzer:
-      - brain.irma
+      - allinone
     virustotal:
-      - brain.irma
-##    windows-probe:
-##      - probe-win.irma
+      - allinone
+    windows-probe:
+      - probe-win
     "probe:children":
       - clamav
       - comodo
@@ -48,6 +53,6 @@ ansible_config:
       - trid
       - static-analyzer
       - virustotal
-##      - windows-probe
-##    "windows:children":
-##      - windows-probe
+      - windows-probe
+    "windows:children":
+      - windows-probe
