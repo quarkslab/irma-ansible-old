@@ -4,4 +4,5 @@
   service:
     name: drweb-configd
     state: restarted
+  when: not docker_build
   sudo: yes

@@ -1,5 +1,7 @@
 ---
 
+hostname: "your-global-hostname.tld"
+
 default_ssh_keys:
   - "{{ lookup('file', 'files/ssh_keys/vagrant.pub') }}"   # Vagrant
 
@@ -79,3 +81,10 @@ sshd:
   PermitRootLogin: no
   Protocol: 2
   X11Forwarding: no
+
+
+## True if irma is being installed in docker.
+## In that case, do not start services at build time.
+## This variable is set to 'true' in Dockerfile using ARG
+## lookup('env', 'X') return '' if the environment variable is not defined.
+docker_build: "{{ lookup('env', 'DOCKERBUILD') == 'true' }}"

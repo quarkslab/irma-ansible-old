@@ -34,3 +34,4 @@
 
 - name: Daemon | Ensure Pure-FTPD is started
   service: name=pure-ftpd state=started
+  when: not docker_build

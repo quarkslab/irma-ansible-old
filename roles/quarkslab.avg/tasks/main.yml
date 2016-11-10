@@ -34,3 +34,11 @@
   sudo: yes
   notify:
     - AVG | Restart agvd service
+  when: not docker_build
+
+- name: AVG | Update database
+  shell: service avgd start && avgupdate
+  register: avgupdate_results
+  failed_when: "avgupdate_results.rc != 0 and avgupdate_results.rc != 2"
+  sudo: yes
+  when: not docker_build

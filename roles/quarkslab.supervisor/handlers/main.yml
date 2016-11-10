@@ -4,3 +4,4 @@
   service:
     name: supervisord
     state: restarted
+  when: not docker_build

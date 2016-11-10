@@ -2,9 +2,11 @@
 
 - name: Restart Pure-FTPD daemon
   service: name=pure-ftpd state=restarted
+  when: not docker_build
   sudo: yes
 
 - name: Reload UFW
   ufw:
     state: reloaded
+  when: not docker_build
   sudo: yes

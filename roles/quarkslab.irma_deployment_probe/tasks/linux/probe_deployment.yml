@@ -41,3 +41,4 @@
     state: restarted
   sudo: yes
   with_items: "{{ supervisor_programs_probe }}"
+  when: not docker_build

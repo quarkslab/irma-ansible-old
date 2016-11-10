@@ -24,6 +24,8 @@
 - include: install.yml
   when: virusblokada_present | failed
 
+# vbaupd segfaults if IPv6 addresses are present in /etc/hosts
+# when docker is used, cannot copy or move file to /etc/hosts, but shell redirections work
 - name: VBA32 | Update definition files
   shell: /opt/vba/vbacl/vbaupdx "{{ virusblokada_update_url }}"
   args:

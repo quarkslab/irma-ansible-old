@@ -11,3 +11,7 @@
   shell: tar xzf "{{ mcafee_temp_dir }}/vscl.tar.gz" -C /usr/local/uvscan
 
 - file: path=/usr/local/uvscan/uvscan mode="655"
+  when: "not docker_build"
+
+- file: path=/usr/local/uvscan/uvscan mode="755"
+  when: "docker_build"

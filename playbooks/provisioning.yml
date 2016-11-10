@@ -5,24 +5,33 @@
   sudo: yes
   roles:
     - { role: quarkslab.apt, tags: 'apt' }
-    - { role: franklinkim.ufw, tags: 'ufw' }
+    - { role: franklinkim.ufw, tags: 'ufw', when: "not docker_build"}
     - { role: quarkslab.irma_provisioning_common, tags: 'common' }
     - { role: mivok0.users, tags: 'users' }
     - { role: franklinkim.sudo, tags: 'sudo' }
     - { role: willshersystems.sshd, tags: 'openssh' }
 
 
+- name: Web client provisioning
+  hosts: ["web-ui"]
+  sudo: yes
+  roles:
+    - { role: quarkslab.nodejs, tags: 'nodejs' }
+    - { role: quarkslab.irma_provisioning_web_ui, tags: 'ui' }
+    - { role: jdauphant.nginx, tags: 'nginx' }
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{web_ui_ufw_additional_rules}}" }
+
+
 - name: Frontend provisioning
   hosts: ["frontend", "frontend-demo"]
   sudo: yes
   roles:
-    - { role: quarkslab.nodejs, tags: 'nodejs' }
     - { role: gdamjan.uwsgi, tags: 'uwsgi' }
     - { role: ANXS.postgresql, tags: 'postgresql' }
     - { role: quarkslab.supervisor, tags: 'supervisor', supervisor_programs: "{{ supervisor_programs_frontend }}" }
     - { role: quarkslab.irma_provisioning_frontend, tags: 'frontend' }
     - { role: jdauphant.nginx, tags: 'nginx' }
-    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ frontend_ufw_additional_rules }}" }
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ frontend_ufw_additional_rules }}", when: "not docker_build" }
 
 
 - name: Brain provisioning
@@ -33,7 +42,7 @@
     - { role: Mayeu.RabbitMQ, tags: 'rabbitmq' }
    # - { role: quarkslab.pureftpd, tags: 'pureftpd' }
     - { role: quarkslab.irma_provisioning_brain, tags: 'brain' }
-    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ brain_ufw_additional_rules }}" }
+    - { role: quarkslab.ufw_additional, tags: 'ufw', ufw_additional_rules: "{{ brain_ufw_additional_rules }}", when: "not docker_build" }
 
 
 # NOTE: moved down sudo attributes as windows does not support sudo.

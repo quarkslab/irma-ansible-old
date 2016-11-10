@@ -1,8 +1,6 @@
 ---
 
 ## Global variables
-hostname: frontend.irma
-
 frontend_user: "{{ default_user }}"
 frontend_group: "{{ default_group }}"
 frontend_project_dir: /opt/irma/irma-frontend
@@ -102,16 +100,13 @@ apt_repositories_code_names:
   - '{{ ansible_distribution_release }}-backports'
 
 
+## PIP extras args
+pip_extra_args: "--default-timeout 120"
+
 ## uWSGI role
 uwsgi_install_method: "{{ 'pip' if (default_use_debian_repo | bool) == False else 'repo' }}"
 uwsgi_plugins:
   - python
-
-
-## NodeJS role
-nodejs_version: "0.10.30"
-nodejs_global_packages:
-  - debug
 
 
 ## PostgreSQL role
@@ -183,18 +178,18 @@ nginx_configs:
   http:
     - server_names_hash_bucket_size 64
 
+nginx_remove_sites: ["default"]
+
 nginx_sites:
-  default:
-    - listen 80
-  irma-frontend:
+  irma-api:
     - listen 80 default_server
     - listen [::]:80 default_server ipv6only=on
-    - server_name www.{{ hostname }}
+    - server_name api.{{ hostname }}
     - client_max_body_size 100m
     - location ~ /\.ht {
         deny all;
       }
-    - location /api {
+    - location / {
         include uwsgi_params;
         rewrite ^/api/(.+) /$1 break;
         uwsgi_pass 127.0.0.1:8081;
@@ -211,13 +206,6 @@ nginx_sites:
         root {{ frontend_install_dir }}/docs/_build/html;
         try_files $uri $uri/ /index.html =404;
       }
-    - location / {
-        expires -1;
-        add_header Pragma "no-cache";
-        add_header Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
-        root {{ frontend_install_dir }}/web/dist;
-        try_files $uri $uri/ /index.html =404;
-      }
     - error_log {{ nginx_log_dir }}/{{ hostname }}.error.log
     - access_log {{ nginx_log_dir }}/{{ hostname }}.access.log
   # Uncomment the following for HTTPs using OpenSSL support
@@ -225,26 +213,26 @@ nginx_sites:
   #irma-frontend-https:
     #- listen 443 default_server
     #- listen [::]:443 default_server ipv6only=on
-    #- server_name www.{{ hostname }}
+    #- server_name api.{{ hostname }}
     #- client_max_body_size 100m
     #- location ~ /\.ht {
         #deny all;
       #}
-    #- location /api {
+    #- location / {
         #include uwsgi_params;
-        #rewrite ^/api/(.+) /$1 break;
         #uwsgi_pass 127.0.0.1:8081;
       #}
     # - location /swagger {
     #     alias {{ frontend_install_dir }}/swagger/ui;
     #     index index.html;
     #   }
-    #- location / {
-        # expires -1;
-        # add_header Pragma "no-cache";
-        # add_header Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
-        # root {{ frontend_install_dir }}/web/dist;
-        # try_files $uri $uri/ /index.html =404;
+    #- location /docs {
+        #rewrite ^/docs/(.+) /$1 break;
+        #expires -1;
+        #add_header Pragma "no-cache";
+        #add_header Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
+        #root {{ frontend_install_dir }}/docs/_build/html;
+        #try_files $uri $uri/ /index.html =404;
       #}
     #- error_log {{ nginx_log_dir }}/{{ hostname }}.error.log
     #- access_log {{ nginx_log_dir }}/{{ hostname }}.access.log
