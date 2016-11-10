@@ -2,15 +2,15 @@
 
 - name: Ensure that directory Frontend project directory is present
   file:
-    path: "{{ frontend_project_dir }}"
+    path: "{{web_ui_project_dir}}"
     state: directory
-    owner: "{{ frontend_user }}"
-    group: "{{ irma_server_group }}"
+    owner: "{{frontend_user}}"
+    group: "{{irma_server_group}}"
     mode: 02750
-    recurse: "{{ vagrant_share|default(false) }}"
+    recurse: "{{vagrant_share|default(false)}}"
 
 - name: Ensure that www-data can access IRMA files and certificates
   user:
     name: www-data
-    groups: "{{ irma_server_group }},{{ irma_cert_group }}"
+    groups: "{{irma_server_group}},{{irma_cert_group}}"
     append: yes

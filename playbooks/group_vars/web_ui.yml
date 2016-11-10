@@ -2,6 +2,55 @@
 
 ##
 web_ui_hostname: "irma.local"
+web_ui_user: "{{default_user}}"
+web_ui_group: "{{default_group}}"
+web_ui_project_dir: /opt/irma/irma-web_ui
+
+web_ui_install_dir: "{{web_ui_project_dir}}/current"
+web_ui_releases_dir: "{{web_ui_project_dir}}/releases"
+
+
+## Deployment
+web_ui_deployment_repository: "https://github.com/quarkslab/irma-web_ui.git"
+
+
+## UFW Rules
+web_ui_ufw_additional_rules:
+  - port: 80
+    rule: allow
+  - port: 443
+    rule: "{{'allow' if web_ui_openssl|default('False') else 'deny'}}"
+
+
+## HTTPs
+web_ui_openssl: False # Default value is False. For HTTPs using OpenSSL,
+                        # change it to True
+web_ui_openssl_dh_param: /etc/nginx/certs/{{web_ui_hostname}}_dhparam.pem
+
+web_ui_openssl_certificates:
+  cert:
+    src: files/{{web_ui_hostname}}/hostname.crt
+    dst: /etc/nginx/certs/{{web_ui_hostname}}.crt
+  key:
+    src: files/{{web_ui_hostname}}/hostname.key
+    dst: /etc/nginx/certs/{{web_ui_hostname}}.key
+  ca:
+    src: files/{{web_ui_hostname}}/ca.crt
+    dst: /etc/nginx/certs/ca.crt
+
+
+## Apt role
+apt_repositories_code_names:
+  - '{{ansible_distribution_release}}'
+  - '{{ansible_distribution_release}}-updates'
+  - '{{ansible_distribution_release}}-backports'
+
+
+## NodeJS role
+nodejs_version: "0.10.30"
+nodejs_global_packages:
+  - debug
+
 
 nginx_configs:
   gzip:
@@ -13,6 +62,8 @@ nginx_configs:
     - gzip_types text/plain text/css application/json application/x-javascript text/javascript application/javascript
   http:
     - server_names_hash_bucket_size 64
+
+nginx_remove_sites: ["default"]
 
 nginx_sites:
   irma-web-ui:

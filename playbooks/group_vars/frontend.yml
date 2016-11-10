@@ -110,12 +110,6 @@ uwsgi_plugins:
   - python
 
 
-## NodeJS role
-nodejs_version: "0.10.30"
-nodejs_global_packages:
-  - debug
-
-
 ## PostgreSQL role
 # Basic settings
 postgresql_version: "9.4"
@@ -185,6 +179,8 @@ nginx_configs:
   http:
     - server_names_hash_bucket_size 64
 
+nginx_remove_sites: ["default"]
+
 nginx_sites:
   irma-api:
     - listen 80 default_server
@@ -194,9 +190,8 @@ nginx_sites:
     - location ~ /\.ht {
         deny all;
       }
-    - location /api {
+    - location / {
         include uwsgi_params;
-        rewrite ^/api/(.+) /$1 break;
         uwsgi_pass 127.0.0.1:8081;
       }
     - location /swagger {
@@ -215,22 +210,14 @@ nginx_sites:
     #- location ~ /\.ht {
         #deny all;
       #}
-    #- location /api {
+    #- location / {
         #include uwsgi_params;
-        #rewrite ^/api/(.+) /$1 break;
         #uwsgi_pass 127.0.0.1:8081;
       #}
     # - location /swagger {
     #     alias {{ frontend_install_dir }}/swagger/ui;
     #     index index.html;
     #   }
-    #- location / {
-        # expires -1;
-        # add_header Pragma "no-cache";
-        # add_header Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
-        # root {{ frontend_install_dir }}/web/dist;
-        # try_files $uri $uri/ /index.html =404;
-      #}
     #- error_log {{ nginx_log_dir }}/{{ hostname }}.error.log
     #- access_log {{ nginx_log_dir }}/{{ hostname }}.access.log
     ## TLS configuration
