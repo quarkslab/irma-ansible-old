@@ -1,8 +1,6 @@
 ---
 
 ## Global variables
-hostname: "api.irma.local"
-
 frontend_user: "{{ default_user }}"
 frontend_group: "{{ default_group }}"
 frontend_project_dir: /opt/irma/irma-frontend
@@ -185,7 +183,7 @@ nginx_sites:
   irma-api:
     - listen 80 default_server
     - listen [::]:80 default_server ipv6only=on
-    - server_name {{ hostname }}
+    - server_name api.{{ hostname }}
     - client_max_body_size 100m
     - location ~ /\.ht {
         deny all;
@@ -205,7 +203,7 @@ nginx_sites:
   #irma-frontend-https:
     #- listen 443 default_server
     #- listen [::]:443 default_server ipv6only=on
-    #- server_name www.{{ hostname }}
+    #- server_name api.{{ hostname }}
     #- client_max_body_size 100m
     #- location ~ /\.ht {
         #deny all;

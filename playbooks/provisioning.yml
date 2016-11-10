@@ -13,7 +13,7 @@
 
 
 - name: Web client provisioning
-  hosts: ["web_ui"]
+  hosts: ["web-ui"]
   sudo: yes
   roles:
     - { role: quarkslab.nodejs, tags: 'nodejs' }

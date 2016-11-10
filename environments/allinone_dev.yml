@@ -2,7 +2,7 @@
 # Variables used by Vagrantfile are defined here
 
 servers:
-  - name: brain.irma
+  - name: allinone_dev
     box: quarkslab/debian-8.2.0-amd64
     ip: 172.16.1.30
     hostname: brain.irma
@@ -62,24 +62,26 @@ ansible_config:
     vagrant_share: true
     irma_environment: development
   groups:
+    web-ui:
+      - allinone_dev
     frontend:
-      - brain.irma
+      - allinone_dev
     brain:
-      - brain.irma
+      - allinone_dev
     clamav:
-      - brain.irma
+      - allinone_dev
     comodo:
-      - brain.irma
+      - allinone_dev
     eset-nod32:
-      - brain.irma
+      - allinone_dev
     mcafee:
-      - brain.irma
+      - allinone_dev
     trid:
-      - brain.irma
+      - allinone_dev
     static-analyzer:
-      - brain.irma
+      - allinone_dev
     virustotal:
-      - brain.irma
+      - allinone_dev
     windows-probe:
       - probe-win.irma
     "probe:children":
