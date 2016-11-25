@@ -1,7 +1,7 @@
 ---
 
 - src: https://github.com/ANXS/postgresql.git
-  version: v1.3.0
+  version: v1.6.2
   name: ANXS.postgresql
 
 - src: https://github.com/weareinteractive/ansible-sudo.git
@@ -9,7 +9,7 @@
   name: franklinkim.sudo
 
 - src: https://github.com/weareinteractive/ansible-ufw.git
-  version: 1.4.0
+  version: 1.6.0
   name: franklinkim.ufw
 
 - src: https://github.com/quarkslab/ansible-uwsgi.git
@@ -17,7 +17,7 @@
   name: gdamjan.uwsgi
 
 - src: https://github.com/jdauphant/ansible-role-nginx.git
-  version: v1.10.0
+  version: v2.5.2
   name: jdauphant.nginx
 
 - src: https://github.com/quarkslab/ansible-playbook-rabbitmq.git
@@ -29,5 +29,5 @@
   name: mivok0.users
 
 - src: https://github.com/willshersystems/ansible-sshd.git
-  version: 0.4.2
+  version: v0.4.6
   name: willshersystems.sshd
