@@ -1,5 +1,0 @@
----
-# Master Playbook
-
-- include: provisioning.yml
-- include: deployment.yml

@@ -1,5 +1,0 @@
----
-
-- name: Install | Use apt to install Pure-FTPD
-  apt: pkg=pure-ftpd state=present
-  when: ansible_os_family == "Debian"

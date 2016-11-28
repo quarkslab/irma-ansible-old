@@ -1,4 +1,0 @@
----
-
-nodejs_npm_filename: npm-{{ nodejs_npm_version }}.tgz
-nodejs_npm_version: 2.1.12
