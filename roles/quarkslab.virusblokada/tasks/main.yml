@@ -1,0 +1,14 @@
+---
+
+# For now, AV is install in Immutability mode
+
+- name: VBA32 | Check version
+  command: /opt/vba/vbacl --version
+  ignore_errors: yes
+  register: virusblokada_present
+
+- include: install.yml
+  when: virusblokada_present | failed
+
+- name: VBA32 | Update definition files
+  shell: vbacl --update
